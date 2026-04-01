@@ -31,11 +31,30 @@ The project utilizes the `telecom_customer_churn.csv` dataset, which contains va
 
 ## 📦 Project Structure
 
+*   `docs/`: Contains the theoretical documentation specifying the dataset dictionary, methodology, and the targeted business objectives.
 *   `code.ipynb`: Jupyter Notebook containing the ML model training, preprocessing, and analysis.
 *   `main.py`: Streamlit application code for the interactive UI.
 *   `telecom_customer_churn.csv`: The raw dataset used for training.
 *   `scaler.pkl`: Saved `StandardScaler` object.
 *   `models/`: Directory containing all trained machine learning models (`random_forest_model.pkl`, `xgboost_model.pkl`, `gradient_boosting_model.pkl`, `logistic_regression_model.pkl`) and other preprocessing artifacts (`feature_names.pkl`, `label_encoders.pkl`, `model_performance.csv`).
+
+## 🛣️ End-to-End Data Flow Architecture
+
+The data flow mapping illustrates how the documentation dictates the underlying algorithmic choices inside the pipeline, which subsequently constructs models consumed straight by the Streamlit application inference nodes:
+
+```mermaid
+graph TD
+    A[Raw Data CSV] --> B("code.ipynb: EDA & Engineering")
+    B --> C("code.ipynb: Model Training")
+    C --> D["models/: .pkl files & Scalers"]
+    E["docs/: Word Documentation"] -. Guides Method .-> B
+    
+    F["User Form Input"] --> G("main.py: App Interface")
+    H["User Bulk CSV/XLSX"] --> G
+    D --> G
+    G --> I{"Inference Engine"}
+    I --> J["Ensemble Preds & Visualizations"]
+```
 
 ## ⚙️ Setup Instructions
 
